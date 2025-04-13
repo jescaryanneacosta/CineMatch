@@ -2,8 +2,7 @@ import requests
 import streamlit as st
 import os
 
-
-
+recommender = TMDBRecommender()
 
 class TMDBRecommender:
     def __init__(self):
