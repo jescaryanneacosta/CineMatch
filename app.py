@@ -6,11 +6,20 @@ st.set_page_config(page_title="CineMatch", page_icon="🎬")
 st.title("🎬 CineMatch: Movie Recommender")
 st.markdown("Type a movie title and get similar movie suggestions from TMDB.")
 
-# Initialize recommender
 recommender = TMDBRecommender()
 
-# User input
 movie = st.text_input("Enter a movie title:", placeholder="e.g. Inception")
+
+
+genre_mapping = recommender.get_genre_mapping()
+genre_list = list(set(genre_mapping.values()))
+genre_list.sort()
+genre_list.insert(0, "All Genres")
+
+selected_genre = st.selectbox("🎭 Filter by Genre (optional):", genre_list)
+if selected_genre == "All Genres":
+    selected_genre = None
+
 
 if movie:
     with st.spinner("Fetching recommendations..."):

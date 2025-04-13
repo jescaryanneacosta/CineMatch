@@ -49,13 +49,17 @@ class TMDBRecommender:
         genres = response.json().get("genres", [])
         return {genre["id"]: genre["name"] for genre in genres}
 
-    def recommend(self, movie_title):
+    def recommend(self, movie_title, genre_filter=None):
         movie = self.search_movie(movie_title)
         if not movie:
             return ["❌ Movie not found."]
         raw_recs = self.get_recommendations(movie["id"])
         genres = self.get_genre_mapping()
 
+        filtered_recs = []
         for rec in raw_recs:
             rec["genres"] = [genres.get(genre_id, "") for genre_id in rec["genre_ids"]]
-        return raw_recs
+            if genre_filter is None or genre_filter in rec["genres"]:
+                filtered_recs.append(rec)
+
+        return filtered_recs
