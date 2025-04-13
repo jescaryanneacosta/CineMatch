@@ -1,14 +1,15 @@
 import requests
+import streamlit as st
 import os
-from dotenv import load_dotenv
 
-load_dotenv()
+
+
 
 class TMDBRecommender:
     def __init__(self):
-        self.api_key = os.getenv("TMDB_API_KEY")
+        self.api_key = st.secrets["TMDB_API_KEY"]
         if not self.api_key:
-            raise ValueError("TMDB API key not found. Make sure it's in your .env file.")
+            raise ValueError("TMDB API key not found.")
         self.base_url = "https://api.themoviedb.org/3"
 
     def search_movie(self, query):
